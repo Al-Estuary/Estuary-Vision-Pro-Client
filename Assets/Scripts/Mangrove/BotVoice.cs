@@ -67,6 +67,7 @@ public class BotVoice : MonoBehaviour
         {
             Debug.Log("Audio source is playing!!!");
         }
+        if (!audioSource.isPlaying && _clipQueue.Count > 0) audioSource.PlayOneShot(_clipQueue.Dequeue());
     }
 
     public bool IsSpeaking()
@@ -159,8 +160,7 @@ public class BotVoice : MonoBehaviour
 
         AudioClip clip = AudioClip.Create("ClipName", samples.Length, packet.channels, packet.frame_rate, false);
         clip.SetData(samples, 0);
-        if (audioSource.isPlaying) audioSource.Stop();
-        audioSource.PlayOneShot(clip);
+        _clipQueue.Enqueue(clip);
     }
 
 
